@@ -23,5 +23,9 @@
     "electron-packager": "^7.3.0",
     "electron": "^1.2.0",
     "os": "*"
+  },
+  "dependencies": {
+    "firebase": "^4.12.1",
+    "firebase-admin": "^5.11.0"
   }
 }

@@ -3,6 +3,17 @@ const fs = require('fs');
 // ipc is used to open and communicate with the data viewer and other additional windows.
 const ipc = require('electron').ipcRenderer;
 const user = require('os').userInfo();
+
+var admin = require("firebase-admin");
+var serviceAccount = require("C:\\Users\\Sachin Konan\\Documents\\VictiScout\\serviceAccountKey.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://frcscouting-b9bf6.firebaseio.com"
+});
+
+var db = admin.database()
+
 // Define some elements.
 var pg = {
     team: document.getElementById('team'),
@@ -101,6 +112,8 @@ function write(match) {
     // Very occasionally, this will return JSON that uses WYSIWYG-style quotes (“”), rather
     // than JSON-standard, side-ambiguous, utf-8 quotes (""). This breaks JSON parsing later on.
     // Since it's as yet unclear why that issue occurs, just replace via regex for now.
+    db.ref('teams/' + String(match["team"]) + "/" + 'Match' + String(match["match"]) ).set(match);
+    
     fs.writeFileSync(path, JSON.stringify(data).replace(/[“”]/, '"'));
 }
 
